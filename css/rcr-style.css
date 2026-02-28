@@ -1,0 +1,207 @@
+/* RCR  Radio Click Player v1.0 - 28.02.2026
+ * RCR Footer RadioPlayer  pentru Radio Click România
+ * Autor BaiatRau on IRC RomaniaChat - https://baiatrau.pages.dev
+*/
+
+:root {
+      --primary: #4a6fa5;
+      --primary-dark: #3a5a8c;
+      --bg-player: rgba(255, 255, 255, 0.78);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 78px;
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+
+    .fixed-player {
+      position: fixed;
+      bottom: 0;
+      left: 0; right: 0;
+      background: var(--bg-player);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+      z-index: 1000;
+      padding: 10px 0;
+    }
+
+    .compact-player {
+     /* max-width: 920px; */
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .player-logo {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .player-info {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .player-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-status {
+      margin: 2px 0 0;
+      font-size: 12.5px;
+      color: #444;
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      animation: scroll-left 18s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .scrolling-active {
+      animation-play-state: running;
+    }
+
+    @keyframes scroll-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .player-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary);
+      color: white;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .player-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.08);
+    }
+
+    .player-btn.playing {
+      background: #e63946;
+    }
+
+    .player-btn.playing:hover {
+      background: #c92a3a;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .volume-slider {
+      width: 90px;
+      accent-color: var(--primary);
+    }
+
+    @media (max-width: 640px) {
+      .compact-player { gap: 10px; padding: 0 12px; }
+      .player-logo { font-size: 13.5px; padding: 5px 10px; }
+      .player-title { font-size: 14px; }
+      .player-status { font-size: 11.5px; }
+      .player-btn { width: 38px; height: 38px; }
+      .volume-container { display: none; }
+    }
+	
+	
+	.player-artwork {
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+#artworkImg {
+  transition: opacity 0.4s ease;
+}
+
+.player-artwork.loading #artworkImg {
+  opacity: 0.6;
+  filter: blur(2px);
+}
+	
+	
+.player-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  overflow: hidden;           /* Taie ce depășește */
+  white-space: nowrap;        /* Nu face wrap */
+  position: relative;         /* Pentru pseudo-elemente dacă vrei */
+  width: 100%;                /* Sau max-width dacă ai nevoie */
+  text-align: center;
+}
+
+.marquee-text {
+  display: inline-block;
+  padding-right: 2em;         /* Spațiu gol la final ca să nu sară brusc */
+  will-change: transform;     /* Performanță mai bună pe mobil */
+  animation: none;            /* Oprim inițial */
+}
+
+.marquee-text.scrolling-active {
+  animation: marquee 18s linear infinite;  /* 18 sec/ciclu – ajustează după gust */
+}
+
+/* Animație simplă: de la poziție normală → la stânga complet */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Pauză la hover / focus (bun pe mobil când apeși) */
+.player-title:hover .marquee-text,
+.player-title:focus-within .marquee-text {
+  animation-play-state: paused;
+}
+
+/* Pe mobil: font puțin mai mic dacă spațiul e foarte limitat */
+@media (max-width: 480px) {
+  .player-title {
+    font-size: 14px;
+  }
+  .marquee-text.scrolling-active {
+    animation-duration: 15s;  /* Mai rapid pe ecrane mici */
+  }
+}
